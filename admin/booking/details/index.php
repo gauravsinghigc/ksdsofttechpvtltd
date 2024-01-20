@@ -249,6 +249,7 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                           <a href="../docs/allotment.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Allotment Letter</a>
                           <a href="../docs/re-allotment.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Re-Allotment Letter</a>
                           <a href="../docs/re-welcome.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Re-Welcome Letter</a>
+                          <a href="../docs/demand-notice.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Final Demand Notice</a>
                         </div>
                       </div>
                       <div class="col-md-6">

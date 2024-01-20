@@ -49,7 +49,7 @@ while ($FetchAllPayments = mysqli_fetch_array($getpayments)) {
   if ($payment_mode == "check") {
     $payment_mode = "Cheque";
   } else {
-    $$payment_mode = $payment_mode;
+    $payment_mode = $payment_mode;
   }
 
   //select customer details
