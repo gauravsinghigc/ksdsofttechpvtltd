@@ -248,8 +248,44 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                           <a href="../docs/welcome-letter.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Welcome Letter</a>
                           <a href="../docs/allotment.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Allotment Letter</a>
                           <a href="../docs/re-allotment.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Re-Allotment Letter</a>
-                          <a href="../docs/re-welcome.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Re-Welcome Letter</a>
-                          <a href="../docs/demand-notice.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Final Demand Notice</a>
+                          <a href="../docs/re-welcome.php?id=<?php echo $bookingid; ?>" target="_blank" class="btn btn-sm btn-default"> Re-Welcome Letter</a>
+                          <a data-toggle="modal" data-target="#final_demand_notice" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Final Demand Notice</a>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="modal fade square" id="final_demand_notice" role="dialog">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header app-bg text-white">
+                                <button type="button" class="close text-white m-r-8 m-t-1" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title text-white">Generate Final Demand Notice</h4>
+                              </div>
+                              <div class="modal-body overflow-auto">
+                                <form class="row" action="../docs/demand-notice.php">
+                                  <input type="hidden" name='id' value='<?php echo $bookingid; ?>'>
+                                  <div class="form-group col-md-4">
+                                    <label>Due Date</label>
+                                    <input type='date' name='due_date' class='form-control' value='<?php echo date("Y-m-d", strtotime("+15 days")); ?>'>
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <label>IFMS Charges (0 for disable)</label>
+                                    <input type='number' name='IFMS' class='form-control' value='0'>
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <label>UPKEEP Charges (0 for disable)</label>
+                                    <input type='number' name='UPKEEP' class='form-control' value='0'>
+                                  </div>
+
+                                  <div class='col-md-12 text-right'>
+                                    <button type='submit' name='GENERATE_FINAL_DEMAND_NOTICE' class='btn btn-md btn-success'>Generate Final Demand Notice</button>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-6">

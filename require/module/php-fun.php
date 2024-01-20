@@ -50,7 +50,7 @@ function Data($data)
 }
 
 
-//getworkdays 
+//getworkdays
 function CountWorkingDays($startdate, $endate)
 {
 
@@ -88,7 +88,7 @@ function GetDays($fromdate)
   return $TimeLeft;
 }
 
-//get hours 
+//get hours
 function GetHours($starttime, $endtime)
 {
   $hours = round((strtotime($endtime) - strtotime($starttime)) / 3600, 1);
@@ -103,7 +103,8 @@ function GetNumbers($strings)
   if ($strings == null) {
     $return = 0;
   } else {
-    $return = intval(preg_replace('/[^0-9]+/', '', $strings), 10);
+    // Use regular expression to remove non-numeric and non-decimal characters and convert to float
+    $return = floatval(preg_replace('/[^0-9.]+/', '', $strings));
   }
 
   return $return;
