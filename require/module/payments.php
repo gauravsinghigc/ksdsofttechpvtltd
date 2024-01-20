@@ -2,7 +2,7 @@
 //bank transfer type
 define("TRANSFER_TYPE", array("NEFT", "IMPS", "RTGS"));
 
-//bank transfer status 
+//bank transfer status
 define("TRANSFER_STATUS", array("Paid", "Pending", "Failed"));
 
 //cheque status
@@ -40,7 +40,7 @@ function PaymentModes($paymode)
 }
 
 
-//function 
+//function
 function PriceInWords($number)
 {
   $number = abs($number);
@@ -74,7 +74,7 @@ function PriceInWords($number)
   }
   $Rupees = implode('', array_reverse($str));
   $paise = ($decimal > 0) ? "." . ($words[$decimal / 10] . " " . $words[$decimal % 10]) . ' Paise' : '';
-  return "rupees " . ($Rupees ? $Rupees . '' : '') . $paise . " Only";
+  return "Rupees " . ($Rupees ? $Rupees . '' : '') . $paise . " only";
 }
 
 
@@ -186,7 +186,7 @@ function PaymentDetails($TransactionId)
   Notes : $TransactionDDTxnNotes<br>
   Payment Received By : (UID$TransactionReceivedBy)" . FETCH("SELECT * FROM users where UserId='$TransactionReceivedBy'", "UserFullName") . "<br>
   Created By : $TransactionDDCreatedAt<br>
-  Updated At : $TransactionDDUpdatedAt 
+  Updated At : $TransactionDDUpdatedAt
   ";
   }
 

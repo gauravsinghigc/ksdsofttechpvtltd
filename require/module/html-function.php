@@ -33,46 +33,47 @@ function Req_Data($req, $method, $sessional = false, $securitylevel = "enc")
     return $RequestedData;
   }
 }
-function moneyFormatIndia($number) {
-    // Separate integer and decimal parts
-    $parts = explode('.', $number);
-    $integerPart = $parts[0];
-    $decimalPart = isset($parts[1]) ? $parts[1] : '00'; // Default to two decimal places
+function moneyFormatIndia($number)
+{
+  // Separate integer and decimal parts
+  $parts = explode('.', $number);
+  $integerPart = $parts[0];
+  $decimalPart = isset($parts[1]) ? $parts[1] : '00'; // Default to two decimal places
 
-    // Format the integer part
-    $explrestunits = "";
-    if (strlen($integerPart) > 3) {
-        $lastthree = substr($integerPart, -3);
-        $restunits = substr($integerPart, 0, -3);
-        $restunits = (strlen($restunits) % 2 == 1) ? "0" . $restunits : $restunits;
-        $expunit = str_split($restunits, 2);
+  // Format the integer part
+  $explrestunits = "";
+  if (strlen($integerPart) > 3) {
+    $lastthree = substr($integerPart, -3);
+    $restunits = substr($integerPart, 0, -3);
+    $restunits = (strlen($restunits) % 2 == 1) ? "0" . $restunits : $restunits;
+    $expunit = str_split($restunits, 2);
 
-        foreach ($expunit as $i => $unit) {
-            if ($i == 0) {
-                $explrestunits .= (int)$unit . ",";
-            } else {
-                $explrestunits .= $unit . ",";
-            }
-        }
-
-        $thecash = $explrestunits . $lastthree;
-    } else {
-        $thecash = $integerPart;
+    foreach ($expunit as $i => $unit) {
+      if ($i == 0) {
+        $explrestunits .= (int)$unit . ",";
+      } else {
+        $explrestunits .= $unit . ",";
+      }
     }
 
-    // Combine the integer and decimal parts
-    $formattedNumber = $thecash;
+    $thecash = $explrestunits . $lastthree;
+  } else {
+    $thecash = $integerPart;
+  }
 
-    if ($decimalPart !== '00') {
-        $formattedNumber .= '.' . $decimalPart;
-    }
+  // Combine the integer and decimal parts
+  $formattedNumber = $thecash;
 
-    return $formattedNumber;
+  if ($decimalPart !== '00') {
+    $formattedNumber .= '.' . $decimalPart;
+  }
+
+  return $formattedNumber;
 }
 
 
 //price function display
-function Price($price, $class = null, $icon = null)
+function Price($price = 0, $class = null, $icon = null)
 {
   if ($price == null) {
     $price = 0;
@@ -86,7 +87,7 @@ function Price($price, $class = null, $icon = null)
   } else {
     $icon = $icon;
   }
-  echo "<span class='$class'>$icon " . "$price" . "</span>";
+  echo "<span class='$class'>$icon" . "$price" . "</span>";
 }
 
 //mrp price function display
