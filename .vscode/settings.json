@@ -12,6 +12,6 @@
   "editor.tabSize": 1,
   "vetur.format.options.tabSize": 1,
   "[php]": {
-    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
   }
 }
