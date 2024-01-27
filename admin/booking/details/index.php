@@ -261,7 +261,7 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                                 <h4 class="modal-title text-white">Generate Final Demand Notice</h4>
                               </div>
                               <div class="modal-body overflow-auto">
-                                <form class="row" action="../docs/demand-notice.php">
+                                <form class="row" target="_blank" action="../docs/demand-notice.php">
                                   <input type="hidden" name='id' value='<?php echo $bookingid; ?>'>
                                   <div class="form-group col-md-4">
                                     <label>Due Date</label>
