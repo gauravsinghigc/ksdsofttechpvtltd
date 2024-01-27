@@ -156,6 +156,8 @@ if ($BookingViewId != null) {
                            <div class="row">
                               <div class="col-md-12">
                                  <h3 class="m-t-3"><i class="fa fa-money app-text"></i> Development Charges</h3>
+
+                                 <a href="../details/" class="btn btn-md btn-primary"><i class='fa fa-angle-left'></i> Back to Booking Dashboard</a>
                               </div>
                               <div class="col-md-12">
                                  <h4 class="m-b-15 section-heading">Search Bookings </h4>

@@ -217,6 +217,7 @@ if (isset($_SESSION['DEVELOPMENT_CHARGE_ID'])) {
                            <div class="row">
                               <div class="col-md-12">
                                  <h3 class="m-t-3"><i class="fa fa-inr app-text"></i> Development Charge Payments</h3>
+                                 <a href="../../booking/details/" class="btn btn-md btn-primary"><i class='fa fa-angle-left'></i> Back to Booking Dashboard</a>
                               </div>
                               <div class="col-md-12">
                                  <h4 class="m-b-15 section-heading">Search Bookings & Charges </h4>
@@ -627,7 +628,7 @@ if (isset($_SESSION['DEVELOPMENT_CHARGE_ID'])) {
                                           } else {
                                              $disabled = "";
                                           } ?>
-                                          <div class="col-md-12 col-lg-12 col-sm-12 col-12" style="display:none;" id="submit_button">
+                                          <div class="col-md-12 col-lg-12 col-sm-12 col-12">
                                              <a href="../../booking/details/" class="btn btn-md btn-default"><i class="fa fa-angle-left"></i> Back to Booking Dashboard</a>
                                              <button class="btn btn-success btn-md" type="submit" name="ReceivedDevelopmentChargePayments">Received Payments</button>
                                           </div>

@@ -32,7 +32,7 @@ if (isset($_POST['CreateDevelopmentCharges'])) {
 
  //common variables
  $devchargepaymentamount = $_POST['devchargepaymentamount'];
- $devchargepaymentnotes = SECURE(POST("devchargepaymentnotes"), "e");
+ $devchargepaymentnotes = $_POST["devchargepaymentnotes"];
  $developmentchargeid = $_SESSION['DEVELOPMENT_CHARGE_ID'];
  $devchargepaymentmode = $_POST['devchargepaymentmode'];
  $devpaymentcreatedat = RequestDataTypeDate;
@@ -50,9 +50,9 @@ if (isset($_POST['CreateDevelopmentCharges'])) {
   $devpaymentbankname = $_POST['OnlineBankName'];
   $transactionId = $_POST['transactionId'];
   $devpaymentstatus = $_POST['transaction_status'];
-  $devpaymentdetails = SECURE(POST("payment_details"), "e");
+  $devpaymentdetails = $_POST["payment_details"];
   $devpaymentreleaseddate = date("Y-m-d", strtotime($_POST['transactiondate']));
-  $devpaymentdetails = "TxnID: $transactionId, Mode: $onlinepaymenttype, Notes: " . SECURE($devpaymentdetails, "d");
+  $devpaymentdetails = "TxnID: $transactionId, Mode: $onlinepaymenttype, Notes: " . $devpaymentdetails;
   $devpaymentdetails = SECURE($devpaymentdetails, "e");
 
   //cheque payments
@@ -64,7 +64,7 @@ if (isset($_POST['CreateDevelopmentCharges'])) {
   $devpaymentreleaseddate = $_POST['checkissuedate'];
   $devpaymentstatus = $_POST['checkissustatus'];
   $devpaymentreceivedby = $_POST['chequereceivedby'];
-  $devpaymentdetails = "CheckNo: $checknumber, IssuedTo: $checkissuedto, Bank: " . SECURE($devpaymentbankname, "d") . ", IFSC: $ifsc";
+  $devpaymentdetails = "CheckNo: $checknumber, IssuedTo: $checkissuedto, Bank: " . $devpaymentbankname . ", IFSC: $ifsc";
   $devpaymentdetails = SECURE($devpaymentdetails, "e");
  }
 

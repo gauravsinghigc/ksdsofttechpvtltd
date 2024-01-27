@@ -822,6 +822,7 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                     <h4 class="section-heading app-bg">Other Charge Payments</h4>
                     <table class="table table-striped text-right" align="right">
                       <tr class="text-right">
+                        <th>Receipt</th>
                         <th align="right" class="text-right">RefID</th>
                         <th align="right" class="text-right">Mode</th>
                         <th align="right" class="text-right">PaidAt</th>
@@ -844,8 +845,10 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                         $devpaymentcreatedat = $fetchtotalpayment2['devpaymentcreatedat'];
                         $devpaymentupdatedat = $fetchtotalpayment2['devpaymentupdatedat'];
                         $netdevelopmentchargespaid += $devchargepaymentamount;
+                        $devchargepaymentid = $fetchtotalpayment2['devchargepaymentid'];
                       ?>
                         <tr>
+                          <td align="left" class="text-left"><a href="../d-receipt.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i> Receipt</a></td>
                           <td><span class="text-info">DC<?php echo $developmentchargeid; ?></span></td>
                           <td><?php echo $devchargepaymentmode; ?></td>
                           <td><?php echo $devpaymentreleaseddate; ?></td>

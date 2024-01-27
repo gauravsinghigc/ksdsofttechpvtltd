@@ -87,13 +87,13 @@ function Price($price = 0, $class = null, $icon = null)
   } else {
     $icon = $icon;
   }
-  echo "<span class='$class'>$icon" . "$price" . "</span>";
+  echo "<span class='$class'>$icon " . "$price" . "</span>";
 }
 
 //mrp price function display
 function MrpPrice($price)
 {
-  echo "<span class='text-danger'><strike>Rs.$price</strike></span>";
+  echo "<span class='text-danger'><strike>Rs. $price</strike></span>";
 }
 
 
