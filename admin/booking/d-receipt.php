@@ -153,6 +153,8 @@ while ($FetchAllPayments = mysqli_fetch_array($getpayments)) {
     $TotalPayment += $payment_amount;
     $NetpaidTotal += $net_paid_amount;
     $remark = $FetchAllPayments['remark'];
+
+
     //payment status
     $SqlPayments = SELECT("SELECT * FROM payments where bookingid='$bookingid'");
     $FetchPayments = mysqli_fetch_array($SqlPayments);
@@ -278,12 +280,13 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
         <img src="<?php echo STORAGE_URL; ?>/doc-img/header.jpg" style="width:100%;">
         <img src="<?php echo STORAGE_URL; ?>/doc-img/water.jpg" style="position: absolute;top: 25%;left: 26%;width: 50%;z-index: -1;">
         <div>
-            <h2 style="text-align:center;margin-top: -1.5rem;margin-bottom:-0.2rem !important;">Receipt / Acknowledgement<br>
+            <h2 style="text-align:center;margin-top: -1.5rem;margin-bottom:-0.2rem !important;">Development & Other Payment Receipts<br>
                 <hr style="width:30%;margin-top:-0.1rem;">
                 </h4>
                 <p style="display:flex;justify-content:space-between;font-size:14px;">
                     <span>
-                        <span><b>Payment Date :</b> <?php echo DATE_FORMATE2("d M, Y", FETCH($DevChargeSql, "devpaymentreleaseddate")); ?></span><br>
+                        <span><b>Payment Date :</b>
+                            <?php echo DATE_FORMATE2("d M, Y", FETCH($DevChargeSql, "devpaymentreleaseddate")); ?></span><br>
                         <span><b>Reference No:</b> KSD-YV/Plot No: <?php echo $numbersOnly; ?></span><br>
                     </span>
                     <span>
@@ -335,16 +338,20 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
             <div style="padding-right:2rem !important;">
                 <table style="width:100%;line-height:1rem;">
                     <tr class="striped text-left">
-                        <th class="text-left" style="width:40%;" align="left">Project, Plot No & Area:</th>
-                        <th class="text-left" align="left"><?php echo $project_name; ?>, Plot No: <?php echo $numbersOnly; ?>, having Area <?php echo $unit_area; ?></th>
+                        <th class="text-left" style="width:30%;" align="left">Project, Plot No & Area:</th>
+                        <th class="text-left" align="left"><?php echo $project_name; ?>, Plot No: <?php echo $numbersOnly; ?>, having Area
+                            <?php echo $unit_area; ?></th>
                     </tr>
                     <tr class="striped text-left">
                         <th class="text-left" align="left">Payment Ref ID:</th>
-                        <td>#<?php echo "B$bookingid/D$DevId/DPID$pid/PD" . DATE_FORMATE2("dmy", FETCH($DevChargeSql, "devpaymentreleaseddate")); ?></td>
+                        <td>
+                            #<?php echo "B$bookingid/D$DevId/DPID$pid/PD" . DATE_FORMATE2("dmy", FETCH($DevChargeSql, "devpaymentreleaseddate")); ?>
+                        </td>
                     </tr>
                     <tr class="striped text-left">
                         <th class="text-left" align="left">Paid Amount</th>
-                        <td>Rs.<?php echo FETCH($DevChargeSql, "devchargepaymentamount"); ?> (<span><?php echo PriceInWords(FETCH($DevChargeSql, "devchargepaymentamount")); ?></span>)</td>
+                        <td>Rs.<?php echo FETCH($DevChargeSql, "devchargepaymentamount"); ?>
+                            (<span><?php echo PriceInWords(FETCH($DevChargeSql, "devchargepaymentamount")); ?></span>)</td>
                     </tr>
                     <tr class="striped text-left">
                         <th class="text-left" align="left">Payment Mode</th>
@@ -387,30 +394,35 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                     </tr>
                     <tr>
                         <td align="right">Net Development & Other Charges <b>(B)</b> :</td>
-                        <td align="right"><?php echo Price($AllDevCharges = AMOUNT($AllDevSql, "developementchargeamount"), "text-success", "Rs."); ?></td>
+                        <td align="right">
+                            <?php echo Price($AllDevCharges = AMOUNT($AllDevSql, "developementchargeamount"), "text-success", "Rs."); ?></td>
                     </tr>
                     <tr>
-                        <td align="right">Net Payable Amount <b>(A+B)</b> :</td>
+                        <td align="right">Net Paid Amount <b>(A+B)</b> :</td>
                         <td align="right"><?php echo Price($net_payable_amount + $AllDevCharges, "text-success", "Rs."); ?></td>
                     </tr>
-                    <tr>
-                        <td align="right">Net Previously Paid :</td>
-                        <td align="right"><?php echo Price($PreviousPaid = $NetpaidTotal + AMOUNT("SELECT * FROM developmentchargepayments where devchargepaymentid<'$pid'", "devchargepaymentamount"), "text-success", "Rs."); ?></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Current Paid Amount :</td>
-                        <td align="right">Rs.<?php echo Price($CurrentDevAmount = FETCH($DevChargeSql, "devchargepaymentamount"), "", ""); ?></td>
-                    </tr>
+                    <!-- <tr>
+      <td align="right">Net Previously Paid :</td>
+      <td align="right">
+       <?php echo Price($PreviousPaid = $NetpaidTotal + AMOUNT("SELECT * FROM developmentchargepayments where devchargepaymentid<'$pid'", "devchargepaymentamount"), "text-success", "Rs."); ?>
+      </td>
+     </tr>
+     <tr>
+      <td align="right">Current Paid Amount :</td>
+      <td align="right">
+       Rs.<?php echo Price($CurrentDevAmount = FETCH($DevChargeSql, "devchargepaymentamount"), "", ""); ?></td>
+     </tr>
 
-                    <tr>
-                        <td align="right">Total Paid Amount :</td>
-                        <td align="right">Rs.<?php echo Price($FinalPaidAmount = $CurrentDevAmount + $PreviousPaid, "", ""); ?></td>
-                    </tr>
+     <tr>
+      <td align="right">Total Paid Amount :</td>
+      <td align="right">Rs.<?php echo Price($FinalPaidAmount = $CurrentDevAmount + $PreviousPaid, "", ""); ?></td>
+     </tr>
 
-                    <tr>
-                        <td align="right" style="color:grey;">Balance :</td>
-                        <td align="right" style="color:grey;"><?php echo Price(($AllDevCharges + $net_payable_amount) - $FinalPaidAmount, "", "Rs."); ?></td>
-                    </tr>
+     <tr>
+      <td align="right" style="color:grey;">Balance :</td>
+      <td align="right" style="color:grey;">
+       <?php echo Price(($AllDevCharges + $net_payable_amount) - $FinalPaidAmount, "", "Rs."); ?></td>
+     </tr> -->
 
                     <tr>
                         <td colspan="2" align="right">
@@ -441,7 +453,8 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                 ❖ This Acknowledgement is subject to realization of cheque and fulfilment of Terms and Conditions mentioned in the
                 Application Form, Allotment Letter and/ or Buyer Agreement.<br>
                 ❖ Any discrepancies shall be brought to the notice of the Company within 15 days of this receipt.<br>
-                Please ensure that you indicate your name, CRN No and the telephone number/ mobile number on the reverse of the cheque/
+                Please ensure that you indicate your name, CRN No and the telephone number/ mobile number on the reverse of the
+                cheque/
                 draft submitted by you.<br>
                 ❖ Kindly inform us regarding any change of your address, telephone no., email ID immediately, if any.
                 *Note: HRERA No. RERA-GRG-PROJ-347-2019, License No. 94 of 2017<br>
