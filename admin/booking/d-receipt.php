@@ -30,6 +30,11 @@ $DevChargeSql = "SELECT * FROM developmentchargepayments where devchargepaymenti
 $DevId = FETCH($DevChargeSql, "developmentchargeid");
 $DevSql = "SELECT * FROM developmentcharges where devchargesid='$DevId'";
 $AllDevSql = "SELECT * FROM developmentcharges where bookingid='$bookingid'";
+$AllDevPaidCharges1 = "SELECT * FROM developmentcharges, developmentchargepayments where devchargepaymentid<'$pid' and developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%RECEIVED%'";
+$AllDevPaidCharges2 = "SELECT * FROM developmentcharges, developmentchargepayments where devchargepaymentid<'$pid' and  developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%PAID%'";
+$AllDevPaidCharges3 = "SELECT * FROM developmentcharges, developmentchargepayments where devchargepaymentid<'$pid' and developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%CLEAR%'";
+
+$NetDevPaidAmount = AMOUNT($AllDevPaidCharges1, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges2, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges3, "devchargepaymentamount");
 
 //other variables
 $area = FETCH($BookingSql, "unit_area");
@@ -281,7 +286,7 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
         <img src="<?php echo STORAGE_URL; ?>/doc-img/water.jpg" style="position: absolute;top: 25%;left: 26%;width: 50%;z-index: -1;">
         <div>
             <h2 style="text-align:center;margin-top: -1.5rem;margin-bottom:-0.2rem !important;">Development & Other Payment Receipts<br>
-                <hr style="width:30%;margin-top:-0.1rem;">
+                <hr style="width:60%;margin-top:0.24rem;">
                 </h4>
                 <p style="display:flex;justify-content:space-between;font-size:14px;">
                     <span>
@@ -389,45 +394,26 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                         <th align="right">Amounts</th>
                     </tr>
                     <tr>
-                        <td align="right">Net Booking/Plot Cost <b>(A)</b> :</td>
-                        <td align="right"><?php echo Price($net_payable_amount, "text-success", "Rs."); ?></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Net Development & Other Charges <b>(B)</b> :</td>
+                        <td align="right">Net Development & Other Charges :</td>
                         <td align="right">
                             <?php echo Price($AllDevCharges = AMOUNT($AllDevSql, "developementchargeamount"), "text-success", "Rs."); ?></td>
                     </tr>
                     <tr>
-                        <td align="right">Net Paid Amount <b>(A+B)</b> :</td>
-                        <td align="right"><?php echo Price($net_payable_amount + $AllDevCharges, "text-success", "Rs."); ?></td>
+                        <td align="right">Net Previously Paid :</td>
+                        <td align="right"><?php echo Price($NetDevPaidAmount, "text-success", "Rs."); ?></td>
                     </tr>
-                    <!-- <tr>
-      <td align="right">Net Previously Paid :</td>
-      <td align="right">
-       <?php echo Price($PreviousPaid = $NetpaidTotal + AMOUNT("SELECT * FROM developmentchargepayments where devchargepaymentid<'$pid'", "devchargepaymentamount"), "text-success", "Rs."); ?>
-      </td>
-     </tr>
-     <tr>
-      <td align="right">Current Paid Amount :</td>
-      <td align="right">
-       Rs.<?php echo Price($CurrentDevAmount = FETCH($DevChargeSql, "devchargepaymentamount"), "", ""); ?></td>
-     </tr>
-
-     <tr>
-      <td align="right">Total Paid Amount :</td>
-      <td align="right">Rs.<?php echo Price($FinalPaidAmount = $CurrentDevAmount + $PreviousPaid, "", ""); ?></td>
-     </tr>
-
-     <tr>
-      <td align="right" style="color:grey;">Balance :</td>
-      <td align="right" style="color:grey;">
-       <?php echo Price(($AllDevCharges + $net_payable_amount) - $FinalPaidAmount, "", "Rs."); ?></td>
-     </tr> -->
-
+                    <tr>
+                        <td align="right">Receipt Amount :</td>
+                        <td align="right"><?php echo Price(FETCH($DevChargeSql, "devchargepaymentamount"), "text-success", "Rs."); ?></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Balance :</td>
+                        <td align="right"><?php echo Price(($AllDevCharges - $NetDevPaidAmount) - FETCH($DevChargeSql, "devchargepaymentamount"), "text-success", "Rs."); ?></td>
+                    </tr>
                     <tr>
                         <td colspan="2" align="right">
                             <p style="margin-bottom:0px;">
-                                In Words <b><?php echo PriceInWords($CurrentDevAmount); ?></b>
+                                In Words <b><?php echo PriceInWords(FETCH($DevChargeSql, "devchargepaymentamount")); ?></b>
                             </p>
                         </td>
                     </tr>

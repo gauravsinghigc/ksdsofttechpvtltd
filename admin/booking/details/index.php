@@ -293,6 +293,7 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                         <a href="cancel-bookings.php?id=<?php echo $bookingid; ?>" class="btn btn-sm btn-warning <?php echo $hiddenbtn; ?>"><i class='fa fa-times'></i> Cancel Booking</a>
                         <a href="edit.php?id=<?php echo $bookingid; ?>" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Edit Details</a>
                         <a href="edit-alloty.php?id=<?php echo $bookingid; ?>" class="btn btn-sm btn-warning">Edit Alloty Details</a>
+                        <a href="add-commission.php?bookingid=<?php echo $bookingid; ?>" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Update Commission</a>
                       </div>
                       <div class="col-md-6">
                         <h4><i class="fa fa-file text-primary"></i> Generate letter</h4>
@@ -304,16 +305,13 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
 
                       <div class="col-md-6">
                         <h4><i class="fa fa-exchange"></i> Update Payment Records</h4>
-                        <div class="btn-group btn-group-sm">
-                          <a href="<?php echo DOMAIN; ?>/admin/payments/emi-payments/emi-pay.php?bid=<?php echo $bookingid; ?>&emi_id=<?php echo $emi_id; ?>" class="text-white fs-10 btn-sm btn btn-primary round <?php echo $hiddenbtn; ?>"><i class="fa fa-plus"></i> Receive Payment</a>
-                          <a href="<?php echo DOMAIN; ?>/admin/booking/development-charges/?b_id=<?php echo $BookingViewId; ?>" class="text-white fs-10 btn-sm btn btn-primary round <?php echo $hiddenbtn; ?>"><i class="fa fa-plus"></i> Add Charges</a>
-                          <a href="<?php echo DOMAIN; ?>/admin/payments/dev-payments/?b_id=<?php echo $BookingViewId; ?>" class="text-white fs-10 btn-sm btn btn-primary round <?php echo $hiddenbtn; ?>"><i class="fa fa-plus"></i> Receive Charges</a>
-                          <a href="add-commission.php?bookingid=<?php echo $bookingid; ?>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Update Commission</a>
-                        </div>
+                        <a href="<?php echo DOMAIN; ?>/admin/payments/emi-payments/emi-pay.php?bid=<?php echo $bookingid; ?>&emi_id=<?php echo $emi_id; ?>" class="text-white fs-10 btn-sm btn btn-primary round <?php echo $hiddenbtn; ?>"><i class="fa fa-plus"></i> Receive Payment</a>
+                        <a href="<?php echo DOMAIN; ?>/admin/booking/development-charges/?b_id=<?php echo $BookingViewId; ?>" class="text-white fs-10 btn-sm btn btn-primary round <?php echo $hiddenbtn; ?>"><i class="fa fa-plus"></i> Add Dev & Other Charges</a>
+                        <a href="<?php echo DOMAIN; ?>/admin/payments/dev-payments/?b_id=<?php echo $BookingViewId; ?>" class="text-white fs-10 btn-sm btn btn-primary round <?php echo $hiddenbtn; ?>"><i class="fa fa-plus"></i> Receive Dev Payments</a>
                       </div>
                       <div class="col-md-6">
                         <h4><br></h4>
-                        <a href="#" onclick="Databar('ViewActions')" class="btn btn-md btn-danger"><i class='fa fa-eye-slash'></i> Hide Actions</a>
+                        <a onclick="Databar('ViewActions')" class="btn btn-md btn-danger"><i class='fa fa-eye-slash'></i> Hide Actions</a>
                       </div>
                     </div>
                   </div>
@@ -799,7 +797,7 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                         $developmentchargecreatedat = $FetchDevCharges['developmentchargecreatedat'];
                         $developmentchargestatus = $FetchDevCharges['developmentchargestatus'];
                         $MainBookingID2 = "B$bookingid2/" . date("m/Y", strtotime($created_at2));
-                        $netdevelopmentcharges += (int)$developementchargeamount; ?>
+                        $netdevelopmentcharges += $developementchargeamount; ?>
                         <tr>
                           <td>DC<?php echo $devchargesid; ?></td>
                           <td><span class="text-info"><?php echo $MainBookingID2; ?></span></td>
@@ -848,28 +846,33 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                         $devchargepaymentid = $fetchtotalpayment2['devchargepaymentid'];
                       ?>
                         <tr>
-                          <td align="left" class="text-left"><a href="../d-receipt.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i> Receipt</a></td>
+                          <td align="left" class="text-left">
+                            <a href="../d-receipt.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i> Receipt</a>
+                            <a href="edit-dev-charge.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-xs btn-default"><i class="fa fa-edit text-primary"></i> Edit</a>
+                          </td>
                           <td><span class="text-info">DC<?php echo $developmentchargeid; ?></span></td>
                           <td><?php echo $devchargepaymentmode; ?></td>
-                          <td><?php echo $devpaymentreleaseddate; ?></td>
-                          <td><?php echo $devpaymentstatus; ?></td>
+                          <td><?php echo DATE_FORMATE2("d M, Y", $devpaymentreleaseddate); ?></td>
+                          <td>
+                            <?php echo $devpaymentstatus; ?>
+                          </td>
                           <td><span class="text-success fs-14">Rs.<?php echo $devchargepaymentamount; ?></span></td>
                         </tr>
                       <?php } ?>
                       <tr>
-                        <td colspan="4"><span class="text-grey">Total Paid</span></td>
+                        <td colspan="5"><span class="text-grey">Total Paid</span></td>
                         <td>
                           <span class="text-primary fs-16"> Rs.<?php echo $netdevelopmentchargespaid; ?></span>
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="4"><span class="text-grey">Net Payable</span></td>
+                        <td colspan="5"><span class="text-grey">Net Payable</span></td>
                         <td>
                           <span class="text-black fs-15"> Rs.<?php echo $netdevelopmentcharges; ?></span>
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="4"><span class="text-grey">Balance</span></td>
+                        <td colspan="5"><span class="text-grey">Balance</span></td>
                         <td>
                           <span class="text-danger fs-14"> Rs.<?php echo $netdevelopmentcharges - $netdevelopmentchargespaid; ?></span>
                         </td>

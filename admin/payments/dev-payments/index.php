@@ -17,8 +17,6 @@ if (isset($_GET['b_id'])) {
 }
 
 if ($BookingViewId != null) {
-
-
    $GetBookings = SELECT("SELECT * FROM bookings where bookingid='$BookingViewId' ORDER BY bookingid DESC");
    $Bookings = mysqli_fetch_array($GetBookings);
    $bookingid = $Bookings['bookingid'];
@@ -157,13 +155,15 @@ if (isset($_SESSION['DEVELOPMENT_CHARGE_ID'])) {
       $developementchargeamount3 = $FetchDevCharges['developementchargeamount'];
       $developmentchargecreatedat3 = $FetchDevCharges['developmentchargecreatedat'];
       $developmentchargestatus3 = $FetchDevCharges['developmentchargestatus'];
-      $netdevelopmentcharges3 += (int)$developementchargeamount3;
+      $netdevelopmentcharges3 += $developementchargeamount3;
 
       //total amount paid for developmemnt charges previous
-      $TotalAmountPaid2 = SELECT("SELECT sum(devchargepaymentamount) FROM developmentchargepayments where developmentchargeid='$devchargesid3' and devpaymentstatus='RECEIVED' or devpaymentstatus='PAID' or devpaymentstatus='CLEAR'");
-      while ($fetchtotalpayment2 = mysqli_fetch_array($TotalAmountPaid2)) {
-         $NetchargesPaid = $fetchtotalpayment2['sum(devchargepaymentamount)'];
-      }
+      $AllDevPaidCharges1 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%RECEIVED%'";
+      $AllDevPaidCharges2 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%PAID%'";
+      $AllDevPaidCharges3 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%CLEAR%'";
+
+      $NetDevPaidAmount = AMOUNT($AllDevPaidCharges1, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges2, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges3, "devchargepaymentamount");
+      $NetchargesPaid = $NetDevPaidAmount;
       if ($NetchargesPaid == null) {
          $NetchargesPaid = 0;
       } else {
@@ -514,10 +514,16 @@ if (isset($_SESSION['DEVELOPMENT_CHARGE_ID'])) {
                                              <div class="form-group">
                                                 <label>Cheque Status</label>
                                                 <select class="form-control" name="checkstatus" id="checkissustatus" onchange="checkcheckstatus()">
-                                                   <option value="">Select Cheque Status</option>
-                                                   <option value="Issued">Issued</option>
+                                                   <option value="Issued">Select Cheque Status</option>
+                                                   <option value="Issued" selected>Issued</option>
                                                    <option value="CLEAR">Clear</option>
                                                 </select>
+                                             </div>
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                             <div class="form-group">
+                                                <label>Clear Date</label>
+                                                <input type="date" value='<?php echo date("Y-m-d"); ?>' name="checkcleardate" value="" class="form-control">
                                              </div>
                                           </div>
                                           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
