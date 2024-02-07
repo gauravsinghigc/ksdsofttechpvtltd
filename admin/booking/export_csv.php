@@ -23,6 +23,9 @@ $header_row = [
   'Net Received',
   'Pending',
   'Received in (%)',
+  'Net Dev-Charges',
+  'Paid Dev-Charges',
+  'Balance Dev-Charges',
   'Booking Date',
   'Status'
 ];
@@ -131,6 +134,22 @@ while ($Bookings = mysqli_fetch_array($GetBookings)) {
   $TOTAL_PAID += (int)$PaymentforProjects;
   $Balance = $net_payable_amount - $PaymentforProjects;
 
+  //dev charges
+  $NetDevCharges = AMOUNT("SELECT * FROM developmentcharges where bookingid='$bookingid'", "developementchargeamount");
+
+  //total amount paid for developmemnt charges previous
+  $AllDevPaidCharges1 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%RECEIVED%'";
+  $AllDevPaidCharges2 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%PAID%'";
+  $AllDevPaidCharges3 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%CLEAR%'";
+  $AllDevPaidCharges4 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%SUCCESS%'";
+  $NetDevPaidAmount = AMOUNT($AllDevPaidCharges4, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges1, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges2, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges3, "devchargepaymentamount");
+  $NetchargesPaid = $NetDevPaidAmount;
+  if ($NetchargesPaid == null) {
+    $NetchargesPaid = 0;
+  } else {
+    $NetchargesPaid = $NetchargesPaid;
+  }
+
   //make csv file rows of data
   $row = [
     "$Count",
@@ -144,6 +163,9 @@ while ($Bookings = mysqli_fetch_array($GetBookings)) {
     "Rs.$PaymentforProjects",
     "Rs.$Balance",
     "" . 100 - round(($net_payable_amount - $PaymentforProjects) / $net_payable_amount * 100, 2) . " %",
+    "Rs." . $NetDevCharges  . "",
+    "Rs." . $NetchargesPaid . "",
+    "Rs." . $NetDevCharges - $NetchargesPaid . "",
     "" . date("d M, Y", strtotime($booking_date)) . "",
     "$status"
   ];

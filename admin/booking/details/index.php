@@ -164,10 +164,12 @@ while ($FetchPayments = mysqli_fetch_array($SqlPayments)) {
 $PaymentforProjects = $TotalAmountPaid;
 
 //total amount paid for developmemnt charges previous
-$TotalAmountPaid2 = SELECT("SELECT sum(devchargepaymentamount) FROM developmentchargepayments, developmentcharges where developmentcharges.bookingid='$BookingViewId' and developmentchargepayments.developmentchargeid=developmentcharges.devchargesid and developmentchargepayments.devpaymentstatus='RECEIVED' or developmentchargepayments.devpaymentstatus='PAID' or developmentchargepayments.devpaymentstatus='CLEAR'");
-while ($fetchtotalpayment2 = mysqli_fetch_array($TotalAmountPaid2)) {
-  $NetchargesPaid = $fetchtotalpayment2['sum(devchargepaymentamount)'];
-}
+$AllDevPaidCharges1 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%RECEIVED%'";
+$AllDevPaidCharges2 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%PAID%'";
+$AllDevPaidCharges3 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%CLEAR%'";
+$AllDevPaidCharges4 = "SELECT * FROM developmentcharges, developmentchargepayments where developmentcharges.bookingid='$bookingid' and developmentcharges.devchargesid=developmentchargepayments.developmentchargeid and devpaymentstatus like '%SUCCESS%'";
+$NetDevPaidAmount = AMOUNT($AllDevPaidCharges4, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges1, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges2, "devchargepaymentamount") + AMOUNT($AllDevPaidCharges3, "devchargepaymentamount");
+$NetchargesPaid = $NetDevPaidAmount;
 if ($NetchargesPaid == null) {
   $NetchargesPaid = 0;
 } else {
