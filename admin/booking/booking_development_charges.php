@@ -103,7 +103,7 @@ require '../../include/admin/common.php';
        $developmentchargecreatedat = $FetchDevCharges['developmentchargecreatedat'];
        $developmentchargestatus = $FetchDevCharges['developmentchargestatus'];
        $MainBookingID2 = "B$bookingid/" . date("m/Y", strtotime($created_at2));
-       $netdevelopmentcharges += (int)$developementchargeamount;
+       $netdevelopmentcharges += $developementchargeamount;
        $net_payable_amount2 = $FetchDevCharges['net_payable_amount'];
        $developmentchargedescription = SECURE($FetchDevCharges['developmentchargedescription'], "d"); ?>
        <div style="display:block !important; width:100%;">

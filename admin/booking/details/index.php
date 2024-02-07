@@ -776,12 +776,12 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                     <h4 class="section-heading app-bg">Other Charges</h4>
                     <table class="table table-striped text-right" align="right">
                       <tr class="text-right">
+                        <th class="text-left">Action</th>
                         <th class="text-right">RefID</th>
-                        <th align="right" class="text-right">BookingiD</th>
-                        <th align="right" class="text-right">Name</th>
-                        <th align="right" class="text-right">Type</th>
-                        <th align="right" class="text-right">Status</th>
-                        <th align="right" class="text-right">Amount</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-right">Amount</th>
                       </tr>
                       <?php
                       $SqlDevcharges = SELECT("SELECT * FROM developmentcharges, bookings where developmentcharges.bookingid='$bookingid' and developmentcharges.bookingid=bookings.bookingid ORDER by developmentcharges.devchargesid ASC");
@@ -799,10 +799,10 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                         $MainBookingID2 = "B$bookingid2/" . date("m/Y", strtotime($created_at2));
                         $netdevelopmentcharges += $developementchargeamount; ?>
                         <tr>
+                          <td><a href="update-dev-charges.php?id=<?php echo $bookingid; ?>&did=<?php echo $devchargesid; ?>" class='btn btn-sm btn-default'><i class='fa fa-edit text-primary'></i> Update</a></td>
                           <td>DC<?php echo $devchargesid; ?></td>
-                          <td><span class="text-info"><?php echo $MainBookingID2; ?></span></td>
                           <td><?php echo $developmentchargetitle; ?></td>
-                          <td><?php echo $developmentchargetype; ?></td>
+                          <td class='text-center'><span class='fs-11'><?php echo $developmentchargetype; ?></span></td>
                           <td><?php echo $developmentchargestatus; ?></td>
                           <td><span class="text-success fs-14">Rs.<?php echo $developementchargeamount; ?></span></td>
                         </tr>
@@ -847,8 +847,8 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                       ?>
                         <tr>
                           <td align="left" class="text-left">
-                            <a href="../d-receipt.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i> Receipt</a>
-                            <a href="edit-dev-charge.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-xs btn-default"><i class="fa fa-edit text-primary"></i> Edit</a>
+                            <a href="../d-receipt.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-sm btn-default" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i> Receipt</a>
+                            <a href="edit-dev-charge.php?id=<?php echo $bookingid; ?>&pid=<?php echo $devchargepaymentid; ?>" class="btn btn-sm btn-default"><i class="fa fa-edit text-primary"></i> Edit</a>
                           </td>
                           <td><span class="text-info">DC<?php echo $developmentchargeid; ?></span></td>
                           <td><?php echo $devchargepaymentmode; ?></td>

@@ -91,4 +91,32 @@ if (isset($_POST['CreateDevelopmentCharges'])) {
  ], "devchargepaymentid='$devchargepaymentid'");
 
  RESPONSE($Update, "Development charge details are updated successfully!", "Unable to update development charge details at the moment!");
+
+ //update development charge details
+} elseif (isset($_POST['UpdateDevelopmentCharges'])) {
+ $devchargesid = SECURE($_POST['devchargesid'], "d");
+
+ $developmentchargetitle = $_POST['developmentchargetitle'];
+ $developmentchargetype = $_POST['developmentchargetype'];
+ if ($developmentchargetype == "Others") {
+  $developmentchargetype = $_POST['otherchargecategory'];
+ } else {
+  $developmentchargetype = $_POST['developmentchargetype'];
+ }
+
+ $developmentcharge = $_POST['developmentcharge'];
+ $developmentchargepercentage = $_POST['developmentchargepercentage'];
+ $developementchargeamount = $_POST['developementchargeamount'];
+ $developmentchargedescription = SECURE(POST("developmentchargedescription"), "e");
+ $developmentchargecreatedat = RequestDataTypeDate;
+ $developmentchargestatus = $_POST['developmentchargestatus'];
+
+ $Save = UPDATE_TABLE(
+  "developmentcharges",
+  [
+   "developmentchargepercentage", "developmentchargetitle", "developmentchargetype", "developmentcharge", "developementchargeamount", "developmentchargedescription", "developmentchargecreatedat", "developmentchargestatus"
+  ],
+  "devchargesid='$devchargesid'"
+ );
+ RESPONSE($Save, "Development Charges <b>$developmentchargetitle</b> with Booking <b>B$bookingid</b> is updated Successfully!", "Unable to Add development charge in Bookings");
 }
