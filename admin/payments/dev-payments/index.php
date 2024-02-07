@@ -77,7 +77,7 @@ if ($BookingViewId != null) {
    }
 
    //agent details
-   $getusers_a = SELECT("SELECT * FROM users, user_address, user_roles where users.company_relation='" . company_id . "' and users.id='$partner_id' and users.id=user_address.user_id and users.user_role_id=user_roles.role_id");
+   $getusers_a = CHECK("SELECT * FROM users, user_address, user_roles where users.company_relation='" . company_id . "' and users.id='$partner_id' and users.id=user_address.user_id and users.user_role_id=user_roles.role_id");
    $count = 0;
    if ($getusers_a == null) {
       $customer_id_a = "0";
@@ -97,6 +97,7 @@ if ($BookingViewId != null) {
       $user_role_id_a = "";
       $user_role_name_a = "";
    } else {
+      $getusers_a = SELECT("SELECT * FROM users, user_address, user_roles where users.company_relation='" . company_id . "' and users.id='$partner_id' and users.id=user_address.user_id and users.user_role_id=user_roles.role_id");
       $agents = mysqli_fetch_array($getusers_a);
       $count++;
       $customer_id_a = $agents['id'];
