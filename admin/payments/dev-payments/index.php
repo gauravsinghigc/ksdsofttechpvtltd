@@ -79,24 +79,43 @@ if ($BookingViewId != null) {
    //agent details
    $getusers_a = SELECT("SELECT * FROM users, user_address, user_roles where users.company_relation='" . company_id . "' and users.id='$partner_id' and users.id=user_address.user_id and users.user_role_id=user_roles.role_id");
    $count = 0;
-   $agents = mysqli_fetch_array($getusers_a);
-   $count++;
-   $customer_id_a = $agents['id'];
-   $customer_name_a = $agents['name'];
-   $customer_phone_a = $agents['phone'];
-   $customer_email_a = $agents['email'];
-   $user_street_address_a = $agents['user_street_address'];
-   $user_area_locality_a = $agents['user_area_locality'];
-   $user_city_a = $agents['user_city'];
-   $user_state_a = $agents['user_state'];
-   $user_pincode_a = $agents['user_pincode'];
-   $user_country_a = $agents['user_country'];
-   $executedcustomer_id_a = $agents['user_id'];
-   $customer_user_profile_img_a = $agents['user_profile_img'];
-   $user_status_a = $agents['user_status'];
-   $created_at_a = $agents['created_at'];
-   $user_role_id_a = $agents['user_role_id'];
-   $user_role_name_a = $agents['role_name'];
+   if ($getusers_a == null) {
+      $customer_id_a = "0";
+      $customer_name_a = "";
+      $customer_phone_a = "";
+      $customer_email_a = "";
+      $user_street_address_a = "";
+      $user_area_locality_a = "";
+      $user_city_a = "";
+      $user_state_a = "";
+      $user_pincode_a = "";
+      $user_country_a = "";
+      $executedcustomer_id_a = "";
+      $customer_user_profile_img_a = "";
+      $user_status_a = "";
+      $created_at_a = "";
+      $user_role_id_a = "";
+      $user_role_name_a = "";
+   } else {
+      $agents = mysqli_fetch_array($getusers_a);
+      $count++;
+      $customer_id_a = $agents['id'];
+      $customer_name_a = $agents['name'];
+      $customer_phone_a = $agents['phone'];
+      $customer_email_a = $agents['email'];
+      $user_street_address_a = $agents['user_street_address'];
+      $user_area_locality_a = $agents['user_area_locality'];
+      $user_city_a = $agents['user_city'];
+      $user_state_a = $agents['user_state'];
+      $user_pincode_a = $agents['user_pincode'];
+      $user_country_a = $agents['user_country'];
+      $executedcustomer_id_a = $agents['user_id'];
+      $customer_user_profile_img_a = $agents['user_profile_img'];
+      $user_status_a = $agents['user_status'];
+      $created_at_a = $agents['created_at'];
+      $user_role_id_a = $agents['user_role_id'];
+      $user_role_name_a = $agents['role_name'];
+   }
    if ($user_status_a == "ACTIVE") {
       $user_status_viea_a = "<span class='text-success'><i class='fa fa-check-circle'></i> Active</span>";
    } else {
