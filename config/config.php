@@ -63,7 +63,7 @@ define("LOCAL_HOST", array(
 
 //filter domain from local or live server
 if (in_array("" . HOST . "", LOCAL_HOST)) {
-  define("DOMAIN", $link . HOST . "/ksd");
+  define("DOMAIN", $link . HOST . "/projects/plotx/ksd");
 } else {
   define("DOMAIN", $link . HOST);
 }
@@ -130,7 +130,7 @@ define("DEVELOPER_SUPPORT_MAIL_ID", "support@." . DEVELOPER_DOMAIN . "");
 define("DEVELOPER_SUPPORT_PANEL", "http://" . DEVELOPER_DOMAIN . "/support");
 define("DEVELOPER_SUPPORT_APP_LINK", "");
 
-//Controll activity or die activities, function
+//Controll activity or die activities, function 
 define("CONTROL_WORK_ENV", CONFIG("CONTROL_WORK_ENV"));
 define("CONTROL_SMS", CONFIG("CONTROL_SMS"));
 define("CONTROL_MAILS", CONFIG("CONTROL_MAILS"));

@@ -876,7 +876,17 @@ $BankLoanSql = "SELECT * FROM booking_loans where booking_main_id='$bookingid'";
                       <tr>
                         <td colspan="5"><span class="text-grey">Balance</span></td>
                         <td>
-                          <span class="text-danger fs-14"> Rs.<?php echo $netdevelopmentcharges - $netdevelopmentchargespaid; ?></span>
+                          <span class="text-danger fs-14"> Rs.<?php
+                         $tolerance = 1e-10;  // or any other small value based on your requirements
+
+if (abs($netdevelopmentcharges - $netdevelopmentchargespaid) < $tolerance) {
+    $result = 0;
+} else {
+    $result = $netdevelopmentcharges - $netdevelopmentchargespaid;
+}
+
+echo $result;
+                          ?></span>
                         </td>
                       </tr>
                     </table>

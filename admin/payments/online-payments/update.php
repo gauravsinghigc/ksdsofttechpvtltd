@@ -75,6 +75,12 @@ if (isset($_GET['id'])) {
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                         <div class="form-group">
+                          <label>Paid Amount</label>
+                          <input type="text" name="onlinepaidamount" value="<?php echo $fetch2['onlinepaidamount']; ?>" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
                           <label>Transaction Status</label>
                           <select name="transaction_status" class="form-control">
                             <?php if ($fetch2['transaction_status'] == "Success") { ?>

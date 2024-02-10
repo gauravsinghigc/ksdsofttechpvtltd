@@ -555,8 +555,9 @@ if (isset($_POST['create_payment'])) {
   $transactionId = $_POST['transactionId'];
   $payment_details = $_POST['payment_details'];
   $created_at = $_POST['created_at'];
+  $onlinepaidamount = $_POST['onlinepaidamount'];
 
-  $update  = UPDATE("UPDATE online_payments SET created_at='$created_at', payment_details='$payment_details', transactionId='$transactionId', OnlineBankName='$OnlineBankName', payment_mode='$payment_mode', transaction_status='$transaction_status', update_at='$update_at' where online_payments_id='$online_payments_id'");
+  $update  = UPDATE("UPDATE online_payments SET onlinepaidamount='$onlinepaidamount', created_at='$created_at', payment_details='$payment_details', transactionId='$transactionId', OnlineBankName='$OnlineBankName', payment_mode='$payment_mode', transaction_status='$transaction_status', update_at='$update_at' where online_payments_id='$online_payments_id'");
   RESPONSE($update, "Online Payment Status is Updated Successfully!", "Unable to Update Online Payment Status");
 
   //delete payment records  

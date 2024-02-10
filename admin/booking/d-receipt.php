@@ -408,7 +408,17 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                     </tr>
                     <tr>
                         <td align="right">Balance :</td>
-                        <td align="right"><?php echo Price(($AllDevCharges - $NetDevPaidAmount) - FETCH($DevChargeSql, "devchargepaymentamount"), "text-success", "Rs."); ?></td>
+                        <td align="right">
+                            <?php
+                            $tolerance = 1e-10;  // or any other small value based on your requirements
+
+if (abs(($AllDevCharges - $NetDevPaidAmount) - FETCH($DevChargeSql, "devchargepaymentamount")) < $tolerance) {
+    $result = 0;
+} else {
+    $result = ($AllDevCharges - $NetDevPaidAmount) - FETCH($DevChargeSql, "devchargepaymentamount");
+}
+                            echo Price($result, "text-success", "Rs.");
+                            ?></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="right">

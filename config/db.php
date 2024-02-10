@@ -16,11 +16,11 @@ define("CONTROL_DB_STATUS", false);
  PROD -> for production
  NULL -> for NO DB connection required
 
- *** change DB_ENV mode as per your requirement ***
+ *** change DB_ENV mode as per your requirement *** 
 */
 
 //set DB_ENV Database work environments DB_ENV can be NULL, DEV or PROD.
-define("DB_ENV", "DEV");
+define("DB_ENV", "PROD");
 
 //database variables
 //for muliple database connections, connections will be declared here...
@@ -54,7 +54,7 @@ if (DB_ENV == "DEV") {
   * DB connection is Optional for this project
   * If required then config.php file will be changed accordingly
   * disable DB connection by setting CONTROL_DATABASE to false
-  * disable DB status by setting CONTROL_DB_STATUS to false
+  * disable DB status by setting CONTROL_DB_STATUS to false 
   * DB_SERVER_HOST, DB_SERVER_USER, DB_SERVER_PASS, DB_SERVER_DB_NAME, DB_SERVER_PORT can be changed as per your requirement
   */
 

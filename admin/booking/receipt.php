@@ -39,7 +39,7 @@ while ($FetchAllPayments = mysqli_fetch_array($getpayments)) {
     $payment_amount = $FetchAllPayments['payment_amount'];
     $payment_created_at = $FetchAllPayments['payment_created_at'];
     $slip_no = $FetchAllPayments['slip_no'];
-    $payment_id = $FetchAllPayments['payment_id'];
+    $payment_id = $_GET['payment_id'];
     $created_at = $FetchAllPayments['created_at'];
     $customer_id = $FetchAllPayments['customer_id'];
     $net_paid_amount = $FetchAllPayments['net_paid'];
@@ -52,7 +52,7 @@ while ($FetchAllPayments = mysqli_fetch_array($getpayments)) {
     if ($payment_mode == "check") {
         $payment_mode = "Cheque";
     } else {
-        $$payment_mode = $payment_mode;
+        $payment_mode = $payment_mode;
     }
 
     //select customer details
@@ -86,9 +86,10 @@ while ($FetchAllPayments = mysqli_fetch_array($getpayments)) {
         $checkissuedto = $check_payments['checkissuedto'];
         $bankName = $check_payments['bankName'];
         $ifsc = $check_payments['ifsc'];
+        $paidamountnet = $check_payments['checkamount'];
         $payment_status = $check_payments['checkstatus'];
         $check_issued_at = date("d M, Y", strtotime($check_payments['created_at']));
-        $payment_note = "<br>by check no: $checknumber issued on $check_issued_at for $checkissuedto through $bankName | $ifsc e.i $payment_status";
+        $payment_note = "<br>by Cheque no: $checknumber issued on $check_issued_at for $checkissuedto through $bankName | $ifsc e.i $payment_status";
     } else if (
         $payment_mode == "banking"
     ) {
@@ -99,6 +100,7 @@ while ($FetchAllPayments = mysqli_fetch_array($getpayments)) {
         $transactionId = $online_payments['transactionId'];
         $payment_details = $online_payments['payment_details'];
         $payment_mode = $online_payments['payment_mode'];
+        $paidamountnet = $online_payments['onlinepaidamount'];
         $payment_status = $online_payments['transaction_status'];
         $payment_note = "<br>by Online Banking : Bank Name:$OnlineBankName, TxnId: $transactionId, Details: $payment_details, Status: $payment_status";
     } else if (
@@ -109,6 +111,7 @@ while ($FetchAllPayments = mysqli_fetch_array($getpayments)) {
         $txnid = $cash_payments['cash_payments'];
         $cashreceivername = $cash_payments['cashreceivername'];
         $cashamount = $cash_payments['cashamount'];
+        $paidamountnet = $cashamount;
         $payment_status = "done!";
         $payment_note = "<br>Cash " . $payment_amount . " is received by $cashreceivername on " . date("d M, Y h:m A", strtotime($paymentcreatedat));
     }
@@ -275,7 +278,7 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                 </h4>
                 <p style="display:flex;justify-content:space-between;font-size:14px;">
                     <span>
-                        <span><b>Payment Date :</b> <?php echo $DisplayedPaymentdate; ?></span><br>
+                        <span><b>Payment Date :</b> <?php echo DATE("d M, Y", strtotime($paid_date)); ?></span><br>
                         <span><b>Reference No:</b> KSD-YV/Plot No: <?php echo $numbersOnly; ?></span><br>
                     </span>
                     <span>
@@ -336,7 +339,7 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                     </tr>
                     <tr class="striped text-left">
                         <th class="text-left" align="left">Paid Amount</th>
-                        <td>Rs.<?php echo $net_paid_amount; ?> (<span><?php echo PriceInWords($net_paid_amount); ?></span>)</td>
+                        <td>Rs.<?php echo $paidamountnet; ?> (<span><?php echo PriceInWords($paidamountnet); ?></span>)</td>
                     </tr>
                     <tr class="striped text-left">
                         <th class="text-left" align="left">Payment Mode</th>
@@ -363,7 +366,7 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                     </tr>
                     <tr>
                         <td align="right">Paid Amount :</td>
-                        <td align="right">Rs.<?php echo Price($net_paid_amount, "", ""); ?></td>
+                        <td align="right">Rs.<?php echo Price($paidamountnet, "", ""); ?></td>
                     </tr>
                     <?php
                     $CurrentPaymentId = IfRequested("GET", "payment_id", 0, false);
@@ -395,7 +398,7 @@ $numbersOnly = preg_replace("/[^0-9]/", "", $inputString);
                     <tr>
                         <td colspan="2" align="right">
                             <p style="margin-bottom:0px;">
-                                In Words <b><?php echo PriceInWords($net_paid_amount); ?></b>
+                                In Words <b><?php echo PriceInWords($paidamountnet); ?></b>
                             </p>
                         </td>
                     </tr>
