@@ -123,6 +123,21 @@ $PageTitle = "Online Payments";
                                   <div class="btn-group">
                                     <a href="<?php echo DOMAIN; ?>/admin/booking/emi_receipt.php?id=<?php echo $fetch2['bookingid']; ?>&payment_id=<?php echo $fetch2['payment_id']; ?>" target="blank" class="btn btn-sm btn-primary"><i class="fa fa-print"></i></a>
                                     <a href="update.php?id=<?php echo $fetch2['online_payments_id']; ?>" class="btn btn-sm btn-default"><i class="fa fa-edit"></i></a>
+                                    <?php if (isset($_GET['delete'])) {
+                                      if ($_GET['delete'] == "true") {
+                                        CONFIRM_DELETE_POPUP(
+                                          "remove_payment",
+                                          [
+                                            "delete_payment_records" => true,
+                                            "control_id" => $fetch2['payment_id'],
+                                            "payment_mode" => $fetch2['payment_mode']
+                                          ],
+                                          "paymentcontroller",
+                                          "<i class='fa fa-trash'></i>",
+                                          "btn btn-sm btn-danger"
+                                        );
+                                      }
+                                    } ?>
                                   </div>
                                 </td>
                               </tr>

@@ -541,6 +541,14 @@ if (isset($_POST['create_payment'])) {
   $bounceat = $_POST['bounceat'];
   $created_at = $_POST['created_at'];
 
+  $payment_id = FETCH("SELECT * FROM check_payments where check_payments='$check_payments'", "payment_id");
+
+  $payments = [
+    "payment_amount" => $checkamount,
+    "payment_date" => $clearedat,
+    "net_paid" => $checkamount
+  ];
+  $Update = UPDATE_DATA("payments", $payments, "payment_id=$payment_id");
   $Update = UPDATE("UPDATE check_payments SET created_at='$created_at', bounceat='$bounceat', inbankat='$inbankat', checkstatus='$checkstatus', checkissuedto='$checkissuedto', checknumber='$checknumber', bankName='$bankName', ifsc='$ifsc', checkamount='$checkamount', issuedat='$issuedat', clearedat='$clearedat' where check_payments='$check_payments'");
 
   RESPONSE($Update, "Check Status Updated Successfully which is $checkstatus", "Unable to Update Check Status");
@@ -557,10 +565,17 @@ if (isset($_POST['create_payment'])) {
   $created_at = $_POST['created_at'];
   $onlinepaidamount = $_POST['onlinepaidamount'];
 
+  $payment_id = FETCH("SELECT * FROM online_payments where online_payments_id='$online_payments_id'", "payment_id");
+  $payments = [
+    "payment_amount" => $onlinepaidamount,
+    "payment_date" => $created_at,
+    "net_paid" => $onlinepaidamount
+  ];
+  $Update = UPDATE_DATA("payments", $payments, "payment_id=$payment_id");
   $update  = UPDATE("UPDATE online_payments SET onlinepaidamount='$onlinepaidamount', created_at='$created_at', payment_details='$payment_details', transactionId='$transactionId', OnlineBankName='$OnlineBankName', payment_mode='$payment_mode', transaction_status='$transaction_status', update_at='$update_at' where online_payments_id='$online_payments_id'");
   RESPONSE($update, "Online Payment Status is Updated Successfully!", "Unable to Update Online Payment Status");
 
-  //delete payment records  
+  //delete payment records
 } elseif (isset($_GET['delete_payment_records'])) {
 
   $access_url = SECURE($_GET['access_url'], "d");
@@ -585,8 +600,6 @@ if (isset($_POST['create_payment'])) {
 
   //update commissio
 } elseif (isset($_POST['AddCommissionDetails'])) {
-
-
   $commission_id = SECURE($_POST['commission_id'], "d");
   $partner_id = SECURE($_POST['partner_id'], "d");
 
